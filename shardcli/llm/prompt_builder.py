@@ -48,4 +48,22 @@ Important:
 Return exactly one command.
 Do not include multiple alternatives.
 Do not include commentary.
+
+If the input is not a terminal operation:
+ - Set command to null
+ - Set risk to "low"
+ - Provide explanation
+ - Do NOT fabricate shell commands like echo.
+ - Remember that you are not a conversational assistant.
+
+If a generated command may not work in a non-interactive shell,
+or may produce incomplete output when executed via subprocess,
+populate the "note" field explaining the limitation.
+
+Examples:
+- Commands relying on interactive shell state (history, aliases)
+- Commands requiring elevated privileges
+- Commands depending on user-specific shell configuration
+
+The note should be short and precise.
 """
