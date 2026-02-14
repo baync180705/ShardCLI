@@ -13,6 +13,7 @@ class ShardResponse:
     """
     Final structured response returned by the orchestrator.
     """
-    command: str
+    command: str | None
     explanation: str
-    risk_report: RiskReport
+    note: str | None
+    risk_report: RiskReport | None

@@ -49,6 +49,14 @@ class ShardCLI:
     def _handle_prompt(self, prompt, orchestrator, executor, explain):
         response = orchestrator.process_request(prompt)
 
+        if response.command is None:
+            self.console.print(
+                Panel(response.explanation, title="Error", style="red")
+            )
+            return
+        
+        if response.note:
+            self.console.print(f"[dim]Note: {response.note}[/dim]")
         self.console.print(
             Panel(response.command, title="Generated Command", style="cyan")
         )

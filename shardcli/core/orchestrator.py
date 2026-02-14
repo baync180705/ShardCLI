@@ -30,12 +30,22 @@ class ShardOrchestrator:
         llm_client = self._initialize_llm(system_prompt)
 
         command_result = self._generate_command(llm_client, user_prompt)
+         
+        if command_result is None:
+            return ShardResponse(
+                command=None,
+                explanation="No actionable shell command could be derived from this input.",
+                risk_report=None,
+                note=None
+            )
+        
         risk_report = self._evaluate_risk(command_result.command)
 
         return ShardResponse(
             command=command_result.command,
             explanation=command_result.explanation,
-            risk_report=risk_report
+            risk_report=risk_report,
+            note=command_result.note
         )
 
     def _detect_environment(self) -> Environment:
@@ -58,7 +68,10 @@ class ShardOrchestrator:
         )
 
     def _generate_command(self, llm_client: GroqLLMClient, user_prompt: str) -> CommandGenerationResult:
-        return llm_client.generate(user_prompt)
+        try: 
+            return llm_client.generate(user_prompt)
+        except Exception as e:
+            return None
 
     def _evaluate_risk(self, command: str) -> RiskReport:
         risk_engine = RiskEngine(self.policy)

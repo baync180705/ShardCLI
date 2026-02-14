@@ -24,3 +24,8 @@ class CommandGenerationResult(BaseModel):
         default=None,
         description="Original LLM response if parsing fails"
     )
+
+    note: Optional[str] = Field(
+        default=None,
+        description="Optional note for the user about execution caveats or limitations"
+    )
