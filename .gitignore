@@ -1,0 +1,4 @@
+venv
+.env
+__pyc*
+shard_cli*
